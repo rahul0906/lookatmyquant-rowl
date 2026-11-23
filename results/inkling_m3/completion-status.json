@@ -1,0 +1,64 @@
+{
+  "status": "complete",
+  "accepted": "exact repeated-prompt cache with optional M3 Pro memory policy",
+  "new_balanced_decode_gain_established": false,
+  "model_free_analysis_tests_passed": 8,
+  "python_syntax_files_checked": 15,
+  "documents_links_and_whitespace_checked": 5,
+  "release_checks": [
+    {
+      "name": "release-inkling-tests",
+      "returncode": 0,
+      "wall_s": 6.682164833007846
+    },
+    {
+      "name": "release-server-tests",
+      "returncode": 0,
+      "wall_s": 1.096485375019256
+    },
+    {
+      "name": "release-cli-tests",
+      "returncode": 0,
+      "wall_s": 0.06475758401211351
+    },
+    {
+      "name": "exact-cache-low-live-server",
+      "returncode": 0,
+      "wall_s": 12.474346542003332
+    },
+    {
+      "name": "release-inkling-cleanup-tests",
+      "command": [
+        ".venv/bin/python",
+        "runtime_mlx/test_inkling.py"
+      ],
+      "returncode": 0,
+      "wall_s": 6.663424290978583
+    }
+  ],
+  "process_check": {
+    "owned_benchmark_or_test_processes": [],
+    "test_ports_without_listeners": [
+      51195,
+      51312
+    ],
+    "subsequent_runtime_test_session_exit": 0
+  },
+  "final_source_sha256": {
+    "runtime_mlx/inkling/__init__.py": "cc92987cf72e57e87030bac8419536ec28e948e07c798b9ff09116d686afac67",
+    "runtime_mlx/inkling/generate.py": "93a4e014d8871169d460c708fe2de5c4a995bc6b75492e651593f4b8c15c9f2d",
+    "runtime_mlx/inkling/model.py": "5f29679633e88c8cb678661e702866e8f588b7e4f9dd266571e8737867fc146d",
+    "runtime_mlx/inkling/exact_prompt_cache.py": "9c8511d20034f13977bf88e738df340815bdd4b276228b13ec27fd295b1eba7d",
+    "runtime_mlx/inkling/analyze_benchmark.py": "28247487165d7e577416cf511315864d096266281094f7c6e11e9100594abf83",
+    "runtime_mlx/inkling/analyze_exact_cache.py": "92e37f6e43f8a20a4ca9f0d455306ee3426fac5ba549d9b086eafeb4114d39cb",
+    "runtime_mlx/inkling/benchmark.py": "8a93d3792ad24c73454f1eba6ce9820074489751df843a4c636828aa4ab30ad9",
+    "runtime_mlx/inkling/bench_exact_prompt_cache.py": "90ac11b78bbbc48975716885bc6fe6e5f9b7bc842c9fc303b33721129bba90ed",
+    "runtime_mlx/inkling/bench_server_exact.py": "15751f2b1d7c6997f5fa849ec0eb3c5012f64508c1b28bed52601c3efd2bb368",
+    "runtime_mlx/inkling/profile_m3.py": "d3912f9ccdad6bfbfb844dbe913e89b079d8b8436ebbe90fd3ef39297117817f",
+    "runtime_mlx/inkling/bench_lut_staging.py": "3f07ba91dd54dba3c46c9ce105c7033ffc3af21a83d068b49fb57b9e51df6eb2",
+    "runtime_mlx/server.py": "c3f2abfd19082e6ab5a14bb89999bcbe83599e70f0753b9fa4b0f8baa90a1e94",
+    "runtime_mlx/test_inkling.py": "05bcdc6ba506d23505c9c381422ef497d0875a561a844bf8147aed524685f0ee",
+    "runtime_mlx/test_server.py": "1695dd54fd3fc5520e627f208bc2498f5d2022ec1612c1a0d8b74bb04fac2d7b",
+    "runtime_mlx/test_inkling_benchmark_analysis.py": "410f7f0931ab253d9c0d9e81e543ccbf5bdc37f34e853549cf3542cce79b6a87"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "status": "complete",
+  "complete_prompts": 3,
+  "families": {
+    "copy": 0.9913296647906262
+  },
+  "family_balanced_ratio": 0.9913296647906262,
+  "all_candidate_outputs_match_baseline": false,
+  "all_baselines_stable": true,
+  "prompts": [
+    {
+      "family": "copy",
+      "prompt": "Repeat this exact text three times: A careful reader compares each result with the original before making a change.",
+      "paired_ratios": [
+        0.9670878636497208,
+        0.9667538014064283
+      ],
+      "median_ratio": 0.9669208325280745,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "copy",
+      "prompt": "Copy the following code exactly and then explain it:\n\ndef merge(a, b):\n    return sorted(a + b)\n",
+      "paired_ratios": [
+        1.0711704269709328,
+        1.0722947640594698
+      ],
+      "median_ratio": 1.0717325955152013,
+      "candidate_matches_baseline": false,
+      "baseline_stable": true
+    },
+    {
+      "family": "copy",
+      "prompt": "Quote the following sentence verbatim before summarizing it: The observatory recorded a faint signal on Tuesday and repeated the measurement on Wednesday.",
+      "paired_ratios": [
+        0.9402620760534429,
+        0.9399504679810878
+      ],
+      "median_ratio": 0.9401062720172654,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    }
+  ]
+}

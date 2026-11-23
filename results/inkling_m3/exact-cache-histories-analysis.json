@@ -1,0 +1,246 @@
+{
+  "status": "complete",
+  "baseline_arm": "baseline",
+  "candidate_arm": "candidate",
+  "complete_prompts": 9,
+  "unpaired_prompts": [],
+  "missing_prompts": [],
+  "unexpected_prompts": [],
+  "comparison_complete": true,
+  "families": {
+    "math": 1.0157711102007123,
+    "code": 0.9996827611006186,
+    "chat": 1.0034325566815698
+  },
+  "family_balanced_ratio": 1.0062720636026008,
+  "all_candidate_outputs_match_baseline": true,
+  "all_baselines_stable": true,
+  "prompts": [
+    {
+      "family": "math",
+      "prompt": "math history original",
+      "paired_ratios": [
+        1.0359712230215827
+      ],
+      "median_ratio": 1.0359712230215827,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "math",
+      "prompt": "math history extended",
+      "paired_ratios": [
+        1.0104943385805027
+      ],
+      "median_ratio": 1.0104943385805027,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "math",
+      "prompt": "math history edited",
+      "paired_ratios": [
+        1.0011657729074375
+      ],
+      "median_ratio": 1.0011657729074375,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "code",
+      "prompt": "code history original",
+      "paired_ratios": [
+        0.9996669996669996
+      ],
+      "median_ratio": 0.9996669996669996,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "code",
+      "prompt": "code history extended",
+      "paired_ratios": [
+        0.9993813795236623
+      ],
+      "median_ratio": 0.9993813795236623,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "code",
+      "prompt": "code history edited",
+      "paired_ratios": [
+        1.0
+      ],
+      "median_ratio": 1.0,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "chat",
+      "prompt": "chat history original",
+      "paired_ratios": [
+        1.0016454134101194
+      ],
+      "median_ratio": 1.0016454134101194,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "chat",
+      "prompt": "chat history extended",
+      "paired_ratios": [
+        1.015015015015015
+      ],
+      "median_ratio": 1.015015015015015,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "chat",
+      "prompt": "chat history edited",
+      "paired_ratios": [
+        0.99375216938563
+      ],
+      "median_ratio": 0.99375216938563,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    }
+  ],
+  "first_token_family_ratios": {
+    "math": 77.84376506647736,
+    "code": 73.84533507345697,
+    "chat": 72.24190267041006
+  },
+  "first_token_balanced_ratio": 74.60684786615224,
+  "cases": [
+    {
+      "family": "math",
+      "prompt": "math history original",
+      "baseline_first_ms": 216.2823329854291,
+      "cached_first_ms": 3.200874984031543,
+      "first_token_ratio": 67.56975329071388,
+      "minimum_paired_ratio": 67.56975329071388,
+      "fill_first_ms": 219.90083399577998,
+      "wall_speed_ratio": 1.1105410754161271,
+      "peak_bytes_including_fill": 9567111750,
+      "peak_added_bytes": -512,
+      "retained_bytes": 55087108,
+      "all_hits": true
+    },
+    {
+      "family": "math",
+      "prompt": "math history extended",
+      "baseline_first_ms": 291.88879099092446,
+      "cached_first_ms": 2.867667004466057,
+      "first_token_ratio": 101.78615248435112,
+      "minimum_paired_ratio": 101.78615248435112,
+      "fill_first_ms": 293.6824170174077,
+      "wall_speed_ratio": 1.0937987235572015,
+      "peak_bytes_including_fill": 9639993122,
+      "peak_added_bytes": 284,
+      "retained_bytes": 55934980,
+      "all_hits": true
+    },
+    {
+      "family": "math",
+      "prompt": "math history edited",
+      "baseline_first_ms": 232.7895839989651,
+      "cached_first_ms": 3.394165978534147,
+      "first_token_ratio": 68.5852092888813,
+      "minimum_paired_ratio": 68.5852092888813,
+      "fill_first_ms": 236.12387498724274,
+      "wall_speed_ratio": 1.0996525639313648,
+      "peak_bytes_including_fill": 9587533270,
+      "peak_added_bytes": -1024,
+      "retained_bytes": 55308292,
+      "all_hits": true
+    },
+    {
+      "family": "code",
+      "prompt": "code history original",
+      "baseline_first_ms": 226.1446249904111,
+      "cached_first_ms": 3.5666249750647694,
+      "first_token_ratio": 63.40577620900677,
+      "minimum_paired_ratio": 63.40577620900677,
+      "fill_first_ms": 229.19270899728872,
+      "wall_speed_ratio": 1.0522227083370113,
+      "peak_bytes_including_fill": 9569620214,
+      "peak_added_bytes": 0,
+      "retained_bytes": 55123972,
+      "all_hits": true
+    },
+    {
+      "family": "code",
+      "prompt": "code history extended",
+      "baseline_first_ms": 320.49979199655354,
+      "cached_first_ms": 3.423624992137775,
+      "first_token_ratio": 93.61416414840095,
+      "minimum_paired_ratio": 93.61416414840095,
+      "fill_first_ms": 321.3441670231987,
+      "wall_speed_ratio": 1.0797477668389073,
+      "peak_bytes_including_fill": 9662556678,
+      "peak_added_bytes": -192,
+      "retained_bytes": 56303620,
+      "all_hits": true
+    },
+    {
+      "family": "code",
+      "prompt": "code history edited",
+      "baseline_first_ms": 248.61558401607908,
+      "cached_first_ms": 3.6646249936893582,
+      "first_token_ratio": 67.84202597652033,
+      "minimum_paired_ratio": 67.84202597652033,
+      "fill_first_ms": 253.38566600112244,
+      "wall_speed_ratio": 1.0596900122614097,
+      "peak_bytes_including_fill": 9589249318,
+      "peak_added_bytes": 0,
+      "retained_bytes": 55345156,
+      "all_hits": true
+    },
+    {
+      "family": "chat",
+      "prompt": "chat history original",
+      "baseline_first_ms": 219.65295801055618,
+      "cached_first_ms": 3.549458022462204,
+      "first_token_ratio": 61.883520419319204,
+      "minimum_paired_ratio": 61.883520419319204,
+      "fill_first_ms": 223.33658300340176,
+      "wall_speed_ratio": 1.0433272431588239,
+      "peak_bytes_including_fill": 9563295214,
+      "peak_added_bytes": 0,
+      "retained_bytes": 55050244,
+      "all_hits": true
+    },
+    {
+      "family": "chat",
+      "prompt": "chat history extended",
+      "baseline_first_ms": 322.7857080055401,
+      "cached_first_ms": 3.6535410035867244,
+      "first_token_ratio": 88.348730091891,
+      "minimum_paired_ratio": 88.348730091891,
+      "fill_first_ms": 327.0067909907084,
+      "wall_speed_ratio": 1.0915514046510137,
+      "peak_bytes_including_fill": 9666945678,
+      "peak_added_bytes": -63734,
+      "retained_bytes": 56340484,
+      "all_hits": true
+    },
+    {
+      "family": "chat",
+      "prompt": "chat history edited",
+      "baseline_first_ms": 238.27416598214768,
+      "cached_first_ms": 3.455291996942833,
+      "first_token_ratio": 68.95919829437497,
+      "minimum_paired_ratio": 68.95919829437497,
+      "fill_first_ms": 241.32775000180118,
+      "wall_speed_ratio": 1.0465610026676266,
+      "peak_bytes_including_fill": 9582962726,
+      "peak_added_bytes": -512,
+      "retained_bytes": 55271428,
+      "all_hits": true
+    }
+  ],
+  "invalid_first_token_cases": [],
+  "passes_repeated_prefill_gate": true
+}

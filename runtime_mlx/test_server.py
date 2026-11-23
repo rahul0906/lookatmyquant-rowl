@@ -14,7 +14,7 @@ if str(ROOT) not in sys.path:
 
 from runtime_mlx.server import (
     MAX_REQUEST_BYTES, SPECIAL, BoundedHTTPServer, Engine, OutputParser, RequestError,
-    anthropic_to_openai, apply_repetition_guard, make_handler, normalize_messages, responses_to_openai,
+    _make_prompt_cache, anthropic_to_openai, apply_repetition_guard, make_handler, normalize_messages, responses_to_openai,
 )  # noqa: E402
 
 IDS = {k: 1000 + i for i, k in enumerate(SPECIAL)}
@@ -581,6 +581,27 @@ def test_disk_prompt_cache_delta_round_trip() -> None:
         assert float(mx.abs(rc.conv_states[0][0] - c2.conv_states[0][0]).max()) == 0.0
 
 
+def test_exact_prompt_cache_selection_and_budget():
+    from unittest.mock import patch
+    class Prefix:
+        def __init__(self, max_entries): self.max_entries = max_entries
+    class Exact(Prefix):
+        def __init__(self, max_entries, max_bytes, low_memory=False):
+            super().__init__(max_entries)
+            self.max_bytes = max_bytes
+            self.low_memory = low_memory
+    # Keep the HTTP/CLI test suite independent of Metal and model weights.
+    with patch.dict(sys.modules, {'runtime_mlx.inkling': SimpleNamespace(PromptCache=Prefix, ExactPromptCache=Exact)}):
+        assert _make_prompt_cache(0, 'exact') is None
+        legacy = _make_prompt_cache(2)
+        assert type(legacy) is Prefix and legacy.max_entries == 2
+        exact = _make_prompt_cache(1, 'exact', 64*1024**2)
+        assert type(exact) is Exact
+        assert exact.max_entries == 1 and exact.max_bytes == 64*1024**2
+        assert not exact.low_memory
+        assert _make_prompt_cache(1, 'exact', 1536*1024**2, True).low_memory
+
+
 def main() -> None:
     test_output_parser()
     test_tool_calls_require_a_complete_declared_json_frame()
@@ -594,6 +615,7 @@ def main() -> None:
     test_openai_responses_endpoint()
     test_repetition_guard()
     test_disk_prompt_cache_delta_round_trip()
+    test_exact_prompt_cache_selection_and_budget()
     print("ALL LAMQ SERVE TESTS PASSED!", flush=True)
 
 

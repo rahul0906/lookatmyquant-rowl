@@ -1,0 +1,23 @@
+[
+  {
+    "phase": "loaded",
+    "active_bytes": 8831373708,
+    "cache_bytes": 1722358318,
+    "peak_bytes": 8949454412,
+    "peak_rss_bytes": 6869762048
+  },
+  {
+    "phase": "draft_head_prepared",
+    "active_bytes": 8873948060,
+    "cache_bytes": 344489984,
+    "peak_bytes": 10173428640,
+    "peak_rss_bytes": 6869762048
+  },
+  {
+    "phase": "allocator_cache_cleared",
+    "active_bytes": 8873948060,
+    "cache_bytes": 0,
+    "peak_bytes": 10173428640,
+    "peak_rss_bytes": 6869762048
+  }
+]

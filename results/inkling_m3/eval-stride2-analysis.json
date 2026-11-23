@@ -1,0 +1,47 @@
+{
+  "status": "complete",
+  "complete_prompts": 3,
+  "families": {
+    "math": 0.9987988305632537,
+    "code": 1.0062778462262885,
+    "chat": 1.0038029439987484
+  },
+  "family_balanced_ratio": 1.0029550449981972,
+  "all_candidate_outputs_match_baseline": true,
+  "all_baselines_stable": true,
+  "prompts": [
+    {
+      "family": "math",
+      "prompt": "What is 17 times 23? Show the steps.",
+      "paired_ratios": [
+        0.9973160998693364,
+        1.000281561257171
+      ],
+      "median_ratio": 0.9987988305632537,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "code",
+      "prompt": "Write a Python function that merges overlapping intervals with tests.",
+      "paired_ratios": [
+        1.0006017543453605,
+        1.0119539381072162
+      ],
+      "median_ratio": 1.0062778462262885,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "chat",
+      "prompt": "Explain how a refrigerator works to a beginner.",
+      "paired_ratios": [
+        0.9688069422143644,
+        1.0387989457831324
+      ],
+      "median_ratio": 1.0038029439987484,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+[console_scripts]
+lamq = runtime_mlx.cli:main

@@ -1,0 +1,31 @@
+[
+  {
+    "name": "release-inkling-tests",
+    "returncode": 0,
+    "wall_s": 6.682164833007846
+  },
+  {
+    "name": "release-server-tests",
+    "returncode": 0,
+    "wall_s": 1.096485375019256
+  },
+  {
+    "name": "release-cli-tests",
+    "returncode": 0,
+    "wall_s": 0.06475758401211351
+  },
+  {
+    "name": "exact-cache-low-live-server",
+    "returncode": 0,
+    "wall_s": 12.474346542003332
+  },
+  {
+    "name": "release-inkling-cleanup-tests",
+    "command": [
+      ".venv/bin/python",
+      "runtime_mlx/test_inkling.py"
+    ],
+    "returncode": 0,
+    "wall_s": 6.663424290978583
+  }
+]

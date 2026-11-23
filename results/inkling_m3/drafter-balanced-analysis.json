@@ -1,0 +1,140 @@
+{
+  "status": "complete",
+  "complete_prompts": 9,
+  "families": {
+    "math": 0.9830367537041824,
+    "code": 0.996470056514049,
+    "chat": 1.03923926071396
+  },
+  "family_balanced_ratio": 1.0059657267431423,
+  "all_candidate_outputs_match_baseline": false,
+  "all_baselines_stable": true,
+  "prompts": [
+    {
+      "family": "math",
+      "prompt": "What is 17 times 23? Show the steps.",
+      "paired_ratios": [
+        1.0032611811926606,
+        1.0081820139237783,
+        0.9998926193714653,
+        1.0022911147705305,
+        1.0050701186623516
+      ],
+      "median_ratio": 1.0032611811926606,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "math",
+      "prompt": "Solve 3x + 4y = 31 and 5x - 2y = 17 and check your answer.",
+      "paired_ratios": [
+        0.9886590818218168,
+        0.9874691268342293,
+        0.9932182928561285,
+        0.989438919939029,
+        0.9902124872653179
+      ],
+      "median_ratio": 0.989438919939029,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "math",
+      "prompt": "A train covers 246 km in 3 hours 25 minutes including a 12 minute stop. Find its moving average speed.",
+      "paired_ratios": [
+        0.9569875072820249,
+        0.952764272144766,
+        0.9529426890810325,
+        0.9581458582850483,
+        0.9780856504709803
+      ],
+      "median_ratio": 0.9569875072820249,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "code",
+      "prompt": "Write a Python function that merges overlapping intervals with tests.",
+      "paired_ratios": [
+        1.07952058882037,
+        1.0696993947881759,
+        1.0632203895071544,
+        1.0924062672072885,
+        1.0731634257756921
+      ],
+      "median_ratio": 1.0731634257756921,
+      "candidate_matches_baseline": false,
+      "baseline_stable": true
+    },
+    {
+      "family": "code",
+      "prompt": "Debug this Python function and explain the correction: def average(x): return sum(x) / (len(x)-1)",
+      "paired_ratios": [
+        0.9558401013505872,
+        0.9196692129160189,
+        0.9626672873268939,
+        0.9342934082660109,
+        0.9035611032077463
+      ],
+      "median_ratio": 0.9342934082660109,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "code",
+      "prompt": "Implement binary search in Python and explain its edge cases.",
+      "paired_ratios": [
+        0.9757309941520468,
+        1.00057571666799,
+        0.9858483220431363,
+        0.986832878846903,
+        1.0108643214140987
+      ],
+      "median_ratio": 0.986832878846903,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "chat",
+      "prompt": "Explain how a refrigerator works to a beginner.",
+      "paired_ratios": [
+        1.0169485011529593,
+        1.0256454521041931,
+        1.0228620623684714,
+        1.0244780693353763,
+        1.0272466818686778
+      ],
+      "median_ratio": 1.0244780693353763,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "chat",
+      "prompt": "Summarize three causes of the First World War.",
+      "paired_ratios": [
+        0.9789121992493437,
+        0.9788187282365205,
+        0.9799897725504146,
+        0.9505076663789205,
+        0.9633409571484054
+      ],
+      "median_ratio": 0.9788187282365205,
+      "candidate_matches_baseline": false,
+      "baseline_stable": true
+    },
+    {
+      "family": "chat",
+      "prompt": "Give a structured checklist for planning a three day trip.",
+      "paired_ratios": [
+        1.1329594435736678,
+        1.1139479219554653,
+        1.1134234169135535,
+        1.1192876181245457,
+        1.1538670351907605
+      ],
+      "median_ratio": 1.1192876181245457,
+      "candidate_matches_baseline": false,
+      "baseline_stable": true
+    }
+  ]
+}

@@ -699,6 +699,15 @@ class OutputParser:
 # --------------------------------------------------------------------------- engine
 
 
+def _make_prompt_cache(entries, mode='prefix', max_bytes=512 * 1024**2, low_memory=False):
+    if not entries:
+        return None
+    from .inkling import ExactPromptCache, PromptCache
+    if mode == 'exact':
+        return ExactPromptCache(max_entries=entries, max_bytes=max_bytes, low_memory=low_memory)
+    return PromptCache(max_entries=entries)
+
+
 class Engine:
     """Loads the model once and generates for one request at a time."""
 
@@ -718,7 +727,6 @@ class Engine:
     def _load(self, args: argparse.Namespace) -> None:
         import mlx.core as mx
 
-        from .inkling import PromptCache
         from .inkling.generate import _unwrap_model
         from .runtime import Runtime, detect_format, resolve_path
 
@@ -748,10 +756,13 @@ class Engine:
                 max_entries=max(1, int(args.prompt_cache or 2)),
                 max_disk_gb=float(getattr(args, "prompt_cache_gb", 20.0)),
             )
-        elif args.prompt_cache:
-            self.prompt_cache = PromptCache(max_entries=args.prompt_cache)
         else:
-            self.prompt_cache = None
+            self.prompt_cache = _make_prompt_cache(
+                args.prompt_cache,
+                getattr(args, "prompt_cache_mode", "prefix"),
+                getattr(args, "prompt_cache_mib", 512) * 1024**2,
+                getattr(args, "prompt_cache_low_memory", False),
+            )
         log(f"loaded {args.model} ({'with drafter' if self.drafter is not None else 'serial'}) in "
             f"{time.perf_counter() - t:.1f}s, {mx.get_active_memory() / 1e9:.2f} GB")
 
@@ -1597,6 +1608,12 @@ def add_serve_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--prompt-cache-dir", default=None, help="persist prompt-prefix snapshots on disk across restarts (loopback only)")
     p.add_argument("--prompt-cache-gb", type=float, default=20.0, help="disk budget in GiB for --prompt-cache-dir (default 20)")
     p.add_argument("--no-repeat-guard", action="store_true", help="disable the stateless agent tool-loop repetition guard")
+    p.add_argument("--prompt-cache-mode", choices=('prefix', 'exact'), default='prefix',
+                   help="snapshot mode: exact reuses identical prompts with the original prefill shape")
+    p.add_argument("--prompt-cache-mib", type=int, default=512,
+                   help="retained snapshot array budget in exact mode (default 512 MiB)")
+    p.add_argument("--prompt-cache-low-memory", action='store_true',
+                   help="reduce exact-cache preparation and allocator memory on M3 Pro")
     p.add_argument("--prefill-chunk", type=int, default=-1, help="tokens per prefill chunk (-1 automatic, 0 one pass)")
     p.add_argument("--no-verify", action="store_true", help=argparse.SUPPRESS)
     p.add_argument("--no-warmup", action="store_true")
@@ -1610,9 +1627,18 @@ def serve(args: argparse.Namespace) -> int:
     if not loopback and not api_key:
         raise SystemExit("network listening requires LAMQ_API_KEY")
     if not (0 <= args.prompt_cache <= 8 and args.context >= 2 and args.max_tokens > 0 and args.prefill_chunk >= -1
-            and 0 <= args.temp <= 2 and 0 <= args.top_p <= 1 and getattr(args, "prompt_cache_gb", 20.0) >= 0):
+            and 0 <= args.temp <= 2 and 0 <= args.top_p <= 1
+            and getattr(args, "prompt_cache_gb", 20.0) >= 0 and getattr(args, "prompt_cache_mib", 512) >= 0):
         raise SystemExit("invalid server limits or sampling defaults")
+    cache_mode = getattr(args, "prompt_cache_mode", "prefix")
+    if cache_mode != "exact":
+        if getattr(args, "prompt_cache_mib", 512) != 512:
+            raise SystemExit("--prompt-cache-mib requires --prompt-cache-mode exact")
+        if getattr(args, "prompt_cache_low_memory", False):
+            raise SystemExit("--prompt-cache-low-memory requires --prompt-cache-mode exact")
     if args.device == "mlx":
+        if cache_mode == "exact" and getattr(args, "prompt_cache_dir", None):
+            raise SystemExit("--prompt-cache-mode exact cannot be combined with --prompt-cache-dir")
         if getattr(args, "no_thinking", False):
             raise SystemExit("--no-thinking requires a CUDA device")
         engine_class = Engine
@@ -1621,6 +1647,8 @@ def serve(args: argparse.Namespace) -> int:
 
         if args.prefill_chunk != -1:
             raise SystemExit("--prefill-chunk is an MLX option")
+        if cache_mode == "exact":
+            raise SystemExit("--prompt-cache-mode exact is an MLX option")
         if args.top_p != 1.0:
             raise SystemExit("CUDA serving currently requires --top-p 1")
         engine_class = CudaEngine

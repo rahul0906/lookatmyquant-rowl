@@ -266,6 +266,7 @@ def _prefill_prompt(
     prompt_cache: PromptCache | None,
     tap_visits: tuple[int, ...] = (),
     drafter: DSparkDrafterMLX | None = None,
+    retain_loop_weights: bool = True,
 ):
     """Prefill a whole prompt from scratch, or through `prompt_cache`. Returns `(out, cache, taps, taps_start, reused)`."""
     if prompt_cache is not None:
@@ -274,10 +275,29 @@ def _prefill_prompt(
         )
     if drafter is not None:
         drafter.reset()
+    cache = m.make_cache()
+    if not retain_loop_weights:
+        cache.retain_prefill_loop_weights = False
     out, cache, taps, taps_start = _prefill(
-        m, prompt_ids, m.make_cache(), ordered=ordered, prefill_chunk=prefill_chunk, tap_visits=tap_visits, drafter=drafter
+        m, prompt_ids, cache, ordered=ordered, prefill_chunk=prefill_chunk, tap_visits=tap_visits, drafter=drafter
     )
     return out, cache, taps, taps_start, 0
+
+
+def _begin_cache_memory_policy(prompt_cache, m):
+    policy = getattr(prompt_cache, 'generation_cache_limit', None)
+    limit = policy(m) if policy is not None else None
+    if limit is None:
+        return None
+    old = mx.set_cache_limit(limit)
+    try:
+        if old < limit:
+            mx.set_cache_limit(old)
+        mx.clear_cache()
+    except BaseException:
+        mx.set_cache_limit(old)
+        raise
+    return old
 
 
 def _sample_next(logits_1d: mx.array, temp: float = 0.0, top_p: float = 1.0, top_k: int = 0) -> int:
@@ -628,6 +648,7 @@ def stream_serial(
     eos = set(int(x) for x in eos_ids)
     greedy = temp <= 0.0
     old_wire = mx.set_wired_limit(mx.device_info()["max_recommended_working_set_size"])
+    old_allocator_limit = None
     t0: float | None = None
     t1: float | None = None
     emitted = 0
@@ -636,6 +657,7 @@ def stream_serial(
     reused = 0
     try:
         t0 = time.perf_counter()
+        old_allocator_limit = _begin_cache_memory_policy(prompt_cache, m)
         if greedy:
             nxt_mx, cache, _, _, reused = _prefill_prompt(m, prompt_ids, ordered=False, prefill_chunk=prefill_chunk, prompt_cache=prompt_cache)
             nxt_mx = nxt_mx[0, -1]
@@ -733,33 +755,42 @@ def stream_serial(
                             break
                         pending_feed.extend(forced)
     finally:
-        if next_pending is not None:
-            mx.eval(next_pending)
-        if stats_out is not None and t0 is not None and t1 is not None:
-            t2 = time.perf_counter()
-            decode_s = max(t2 - t1, 1e-9)
-            decode_toks = max(emitted - 1, 0)
-            stats_out.update(
-                {
-                    "mode": "serial",
-                    "prompt_tokens": len(prompt_ids),
-                    "prompt_cached_tokens": reused,
-                    "tokens": decode_toks,
-                    "generated_tokens": emitted,
-                    "prompt_s": round(t1 - t0, 4),
-                    "rounds_s": round(decode_s, 4),
-                    "decode_tok_s": round(decode_toks / decode_s, 2) if decode_toks else 0.0,
-                    "median_step_ms": round(statistics.median(step_ms), 2) if step_ms else 0.0,
-                    "temp": temp,
-                    "top_p": top_p,
-                    "top_k": top_k,
-                    "thinking_capped": bool(th_state.capped) if th_state is not None else False,
-                    "thinking_tokens": int(th_state.count) if th_state is not None else 0,
-                    "active_gb": round(mx.get_active_memory() / 1e9, 3),
-                    "peak_gb": round(mx.get_peak_memory() / 1e9, 3),
-                }
-            )
-        mx.set_wired_limit(old_wire)
+        try:
+            if next_pending is not None:
+                mx.eval(next_pending)
+            if stats_out is not None and t0 is not None and t1 is not None:
+                t2 = time.perf_counter()
+                decode_s = max(t2 - t1, 1e-9)
+                decode_toks = max(emitted - 1, 0)
+                stats_out.update(
+                    {
+                        "mode": "serial",
+                        "prompt_tokens": len(prompt_ids),
+                        "prompt_cached_tokens": reused,
+                        "tokens": decode_toks,
+                        "generated_tokens": emitted,
+                        "prompt_s": round(t1 - t0, 4),
+                        "rounds_s": round(decode_s, 4),
+                        "decode_tok_s": round(decode_toks / decode_s, 2) if decode_toks else 0.0,
+                        "median_step_ms": round(statistics.median(step_ms), 2) if step_ms else 0.0,
+                        "temp": temp,
+                        "top_p": top_p,
+                        "top_k": top_k,
+                        "thinking_capped": bool(th_state.capped) if th_state is not None else False,
+                        "thinking_tokens": int(th_state.count) if th_state is not None else 0,
+                        "active_gb": round(mx.get_active_memory() / 1e9, 3),
+                        "peak_gb": round(mx.get_peak_memory() / 1e9, 3),
+                    }
+                )
+        finally:
+            try:
+                if old_allocator_limit is not None:
+                    try:
+                        mx.synchronize()
+                    finally:
+                        mx.set_cache_limit(old_allocator_limit)
+            finally:
+                mx.set_wired_limit(old_wire)
 
 
 def stream_dspark(
@@ -785,7 +816,11 @@ def stream_dspark(
     prefill_chunk: int | None = PREFILL_CHUNK,
     prompt_cache: PromptCache | None = None,
 ) -> Iterator[list[int]]:
-    """Stream hybrid N-gram + DSpark speculative decoding (exact greedy, tight-margin greedy, or exact unbiased `temp > 0`)."""
+    """Stream hybrid N-gram + DSpark speculative decoding with full target verification.
+
+    Batched verification and serial forwards may differ numerically, so greedy
+    output is not guaranteed to match serial execution token for token.
+    """
     if temp < 0.0:
         raise ValueError(f"temp must be >= 0, got {temp}")
     th_state = _ThinkCapState(max_thinking_tokens) if max_thinking_tokens is not None else None
@@ -817,6 +852,7 @@ def stream_dspark(
 
     old_wire = mx.set_wired_limit(mx.device_info()["max_recommended_working_set_size"])
     t0: float | None = None
+    old_allocator_limit = None
     t1: float | None = None
     t2: float | None = None
     emitted_total = 0
@@ -831,6 +867,7 @@ def stream_dspark(
     try:
         t0 = time.perf_counter()
         if stochastic:
+            old_allocator_limit = _begin_cache_memory_policy(prompt_cache, m)
             first_ord_logits, cache, taps, taps_start, reused = _prefill_prompt(
                 m, prompt_ids, ordered=True, prefill_chunk=prefill_chunk, prompt_cache=prompt_cache,
                 tap_visits=tap_ids, drafter=drafter,
@@ -841,6 +878,7 @@ def stream_dspark(
             mx.eval(first_mx, taps)
             first = int(first_mx)
         else:
+            old_allocator_limit = _begin_cache_memory_policy(prompt_cache, m)
             first_mx, cache, taps, taps_start, reused = _prefill_prompt(
                 m, prompt_ids, ordered=False, prefill_chunk=prefill_chunk, prompt_cache=prompt_cache,
                 tap_visits=tap_ids, drafter=drafter,
@@ -1246,46 +1284,55 @@ def stream_dspark(
             if chunk:
                 yield chunk
     finally:
-        if stats_out is not None and t0 is not None and t1 is not None and t2 is not None:
-            t3 = time.perf_counter()
-            decode_s = max(t3 - t2, 1e-9)
-            decode_toks = max(emitted_total - 1, 0)
-            mean_acc = sum(accepted_per_round) / max(len(accepted_per_round), 1)
-            mode_name = f"dspark_tree_{tree}" if tree is not None else ("dspark_adaptive" if adaptive else "dspark")
-            if stochastic:
-                mode_name = f"{mode_name}_sample"
-            elif eff_margin > 0.0:
-                mode_name = f"{mode_name}_margin"
-            stats_out.update(
-                {
-                    "mode": mode_name,
-                    "prompt_tokens": len(prompt_ids),
-                    "prompt_cached_tokens": reused,
-                    "tokens": decode_toks,
-                    "generated_tokens": emitted_total,
-                    "prompt_s": round(t1 - t0, 4),
-                    "drafter_prompt_s": round(t2 - t1, 4),
-                    "rounds_s": round(decode_s, 4),
-                    "decode_tok_s": round(decode_toks / decode_s, 2) if decode_toks else 0.0,
-                    "rounds": len(accepted_per_round),
-                    "tokens_per_check": round(mean_acc, 2),
-                    "branch_hits": branch_hits,
-                    "ngram_rounds": ngram_rounds,
-                    "ngram_accepted": ngram_accepted,
-                    "ngram_first_rejects": ngram_first_rejects,
-                    "median_round_ms": round(statistics.median(round_ms), 2) if round_ms else 0.0,
-                    "serial_steps": serial_steps,
-                    "temp": temp,
-                    "top_p": top_p,
-                    "top_k": top_k,
-                    "eff_margin": round(eff_margin, 6),
-                    "thinking_capped": bool(th_state.capped) if th_state is not None else False,
-                    "thinking_tokens": int(th_state.count) if th_state is not None else 0,
-                    "active_gb": round(mx.get_active_memory() / 1e9, 3),
-                    "peak_gb": round(mx.get_peak_memory() / 1e9, 3),
-                }
-            )
-        mx.set_wired_limit(old_wire)
+        try:
+            if stats_out is not None and t0 is not None and t1 is not None and t2 is not None:
+                t3 = time.perf_counter()
+                decode_s = max(t3 - t2, 1e-9)
+                decode_toks = max(emitted_total - 1, 0)
+                mean_acc = sum(accepted_per_round) / max(len(accepted_per_round), 1)
+                mode_name = f"dspark_tree_{tree}" if tree is not None else ("dspark_adaptive" if adaptive else "dspark")
+                if stochastic:
+                    mode_name = f"{mode_name}_sample"
+                elif eff_margin > 0.0:
+                    mode_name = f"{mode_name}_margin"
+                stats_out.update(
+                    {
+                        "mode": mode_name,
+                        "prompt_tokens": len(prompt_ids),
+                        "prompt_cached_tokens": reused,
+                        "tokens": decode_toks,
+                        "generated_tokens": emitted_total,
+                        "prompt_s": round(t1 - t0, 4),
+                        "drafter_prompt_s": round(t2 - t1, 4),
+                        "rounds_s": round(decode_s, 4),
+                        "decode_tok_s": round(decode_toks / decode_s, 2) if decode_toks else 0.0,
+                        "rounds": len(accepted_per_round),
+                        "tokens_per_check": round(mean_acc, 2),
+                        "branch_hits": branch_hits,
+                        "ngram_rounds": ngram_rounds,
+                        "ngram_accepted": ngram_accepted,
+                        "ngram_first_rejects": ngram_first_rejects,
+                        "median_round_ms": round(statistics.median(round_ms), 2) if round_ms else 0.0,
+                        "serial_steps": serial_steps,
+                        "temp": temp,
+                        "top_p": top_p,
+                        "top_k": top_k,
+                        "eff_margin": round(eff_margin, 6),
+                        "thinking_capped": bool(th_state.capped) if th_state is not None else False,
+                        "thinking_tokens": int(th_state.count) if th_state is not None else 0,
+                        "active_gb": round(mx.get_active_memory() / 1e9, 3),
+                        "peak_gb": round(mx.get_peak_memory() / 1e9, 3),
+                    }
+                )
+        finally:
+            try:
+                if old_allocator_limit is not None:
+                    try:
+                        mx.synchronize()
+                    finally:
+                        mx.set_cache_limit(old_allocator_limit)
+            finally:
+                mx.set_wired_limit(old_wire)
 
 
 def generate_serial(

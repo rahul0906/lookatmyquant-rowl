@@ -1,0 +1,85 @@
+{
+  "status": "complete",
+  "command": [
+    ".venv/bin/lamq",
+    "serve",
+    "/Users/rahul/.cache/huggingface/hub/models--shinmegamiboson--Inkling-2-Mini-LookAtMyQuant-8.9GB/snapshots/b5fe3bee6a8dc6dd50bb00c2dd17d2e259365a85",
+    "--drafter",
+    "/Users/rahul/.cache/huggingface/hub/models--shinmegamiboson--Inkling-2-Mini-LookAtMyQuant-drafter/snapshots/adac74d1cf00ed68a19a77233a62bd6dcc6c2607",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "51195",
+    "--model-id",
+    "inkling",
+    "--reasoning-effort",
+    "none",
+    "--prompt-cache",
+    "1",
+    "--prompt-cache-mode",
+    "exact",
+    "--max-tokens",
+    "64",
+    "--no-warmup"
+  ],
+  "same_choices": true,
+  "cached_tokens": 25,
+  "runs": [
+    {
+      "wall_s": 3.7138722499948926,
+      "response": {
+        "id": "chatcmpl-a81fe62301c242078a449a6e0cbb3ced",
+        "object": "chat.completion",
+        "created": 1795460108,
+        "model": "inkling",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "",
+              "reasoning_content": "The user asks for 17 times 23 with steps. Need compute accurately. 17*23 = 17*20 + 17*3 = 340 + 51 = 391. Or 23*10=230, 23*7=161, total 391. Need show steps"
+            },
+            "finish_reason": "length"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 25,
+          "completion_tokens": 64,
+          "total_tokens": 89,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "wall_s": 1.456088875012938,
+      "response": {
+        "id": "chatcmpl-deae57eb01d74934b6f000f0eb6f0cca",
+        "object": "chat.completion",
+        "created": 1795460109,
+        "model": "inkling",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "",
+              "reasoning_content": "The user asks for 17 times 23 with steps. Need compute accurately. 17*23 = 17*20 + 17*3 = 340 + 51 = 391. Or 23*10=230, 23*7=161, total 391. Need show steps"
+            },
+            "finish_reason": "length"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 25,
+          "completion_tokens": 64,
+          "total_tokens": 89,
+          "prompt_tokens_details": {
+            "cached_tokens": 25
+          }
+        }
+      }
+    }
+  ]
+}
