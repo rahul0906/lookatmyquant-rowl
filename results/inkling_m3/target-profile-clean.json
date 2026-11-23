@@ -1,0 +1,588 @@
+{
+  "model": "/Users/rahul/.cache/huggingface/hub/models--shinmegamiboson--Inkling-2-Mini-LookAtMyQuant-8.9GB/snapshots/b5fe3bee6a8dc6dd50bb00c2dd17d2e259365a85",
+  "device": {
+    "device_name": "Apple M3 Pro",
+    "max_recommended_working_set_size": 14302248960,
+    "memory_size": 19327352832,
+    "architecture": "applegpu_g15s",
+    "max_buffer_length": 10726686720,
+    "resource_limit": 499000
+  },
+  "cpu_profiles": {
+    "math": {
+      "profile": "results/inkling_m3/target-profile-clean-math.prof",
+      "total_s": 3.183327161,
+      "top_self_time": [
+        {
+          "file": "model.py",
+          "line": 1818,
+          "function": "_forward_core_fast",
+          "calls": 38,
+          "self_s": 2.005200226,
+          "cumulative_s": 2.334593291
+        },
+        {
+          "file": "generate.py",
+          "line": 663,
+          "function": "stream_dspark",
+          "calls": 39,
+          "self_s": 0.7544086630000001,
+          "cumulative_s": 3.180693664
+        },
+        {
+          "file": "model.py",
+          "line": 1533,
+          "function": "forward_fast",
+          "calls": 1824,
+          "self_s": 0.06372723300000001,
+          "cumulative_s": 0.32136728200000003
+        },
+        {
+          "file": "generate.py",
+          "line": 801,
+          "function": "_async_eval_drafter_and_pending",
+          "calls": 37,
+          "self_s": 0.048269873000000005,
+          "cumulative_s": 0.048448418
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 2809,
+          "function": "__call__",
+          "calls": 3648,
+          "self_s": 0.033319937,
+          "cumulative_s": 0.033755896
+        },
+        {
+          "file": "model.py",
+          "line": 360,
+          "function": "commit_spec_verify",
+          "calls": 37,
+          "self_s": 0.022873042000000003,
+          "cumulative_s": 0.023318460000000003
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 3327,
+          "function": "block_attn_res_fused",
+          "calls": 3648,
+          "self_s": 0.020190989000000003,
+          "cumulative_s": 0.020190989000000003
+        },
+        {
+          "file": "kernels.py",
+          "line": 99,
+          "function": "rht_apply_out",
+          "calls": 3876,
+          "self_s": 0.018883305,
+          "cumulative_s": 0.018883305
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 5214,
+          "function": "gqa_relpos_sinks_sdpa_fast",
+          "calls": 1824,
+          "self_s": 0.015465788000000001,
+          "cumulative_s": 0.021378023000000003
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 477,
+          "function": "rht_out_1024_fast",
+          "calls": 3534,
+          "self_s": 0.014306937,
+          "cumulative_s": 0.014306937
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 1510,
+          "function": "matmul_rotated_sg8_f16",
+          "calls": 1813,
+          "self_s": 0.014214033000000001,
+          "cumulative_s": 0.014613555
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 5537,
+          "function": "moe_wsum_sconv4_res_fused",
+          "calls": 1824,
+          "self_s": 0.012677606000000001,
+          "cumulative_s": 0.012677606000000001
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 3157,
+          "function": "sigmoid_top8_norm_and_plan_fast",
+          "calls": 1776,
+          "self_s": 0.012478064,
+          "cumulative_s": 0.012478064
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 1535,
+          "function": "matmul_rotated_f16",
+          "calls": 1825,
+          "self_s": 0.012130839000000001,
+          "cumulative_s": 0.012426385000000002
+        },
+        {
+          "file": "model.py",
+          "line": 702,
+          "function": "forward_fast_fused_prerot",
+          "calls": 1824,
+          "self_s": 0.011758962000000001,
+          "cumulative_s": 0.081304446
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 3815,
+          "function": "q_rel_clip_fused",
+          "calls": 1824,
+          "self_s": 0.011256367000000001,
+          "cumulative_s": 0.011256367000000001
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 3911,
+          "function": "kv_sconv4_norm_fused",
+          "calls": 1520,
+          "self_s": 0.011111829,
+          "cumulative_s": 0.011111829
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 5362,
+          "function": "short_conv4_res_fused",
+          "calls": 1824,
+          "self_s": 0.009709344,
+          "cumulative_s": 0.009709344
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 310,
+          "function": "rht_in_2304_fast",
+          "calls": 1862,
+          "self_s": 0.009255924,
+          "cumulative_s": 0.009255924
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 689,
+          "function": "swiglu_rht_1152_fast",
+          "calls": 1824,
+          "self_s": 0.009120491000000001,
+          "cumulative_s": 0.009120491000000001
+        }
+      ]
+    },
+    "code": {
+      "profile": "results/inkling_m3/target-profile-clean-code.prof",
+      "total_s": 4.748038755000001,
+      "top_self_time": [
+        {
+          "file": "model.py",
+          "line": 1818,
+          "function": "_forward_core_fast",
+          "calls": 63,
+          "self_s": 2.912651057,
+          "cumulative_s": 3.436993751
+        },
+        {
+          "file": "generate.py",
+          "line": 663,
+          "function": "stream_dspark",
+          "calls": 64,
+          "self_s": 1.173589185,
+          "cumulative_s": 4.744756875
+        },
+        {
+          "file": "model.py",
+          "line": 1533,
+          "function": "forward_fast",
+          "calls": 3024,
+          "self_s": 0.101320799,
+          "cumulative_s": 0.511791019
+        },
+        {
+          "file": "generate.py",
+          "line": 801,
+          "function": "_async_eval_drafter_and_pending",
+          "calls": 62,
+          "self_s": 0.06698653,
+          "cumulative_s": 0.06726804
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 2809,
+          "function": "__call__",
+          "calls": 6048,
+          "self_s": 0.052848399000000004,
+          "cumulative_s": 0.053416953
+        },
+        {
+          "file": "model.py",
+          "line": 360,
+          "function": "commit_spec_verify",
+          "calls": 54,
+          "self_s": 0.038499132000000005,
+          "cumulative_s": 0.039166001000000006
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 3327,
+          "function": "block_attn_res_fused",
+          "calls": 6048,
+          "self_s": 0.031723332,
+          "cumulative_s": 0.031723332
+        },
+        {
+          "file": "kernels.py",
+          "line": 99,
+          "function": "rht_apply_out",
+          "calls": 6426,
+          "self_s": 0.030155860000000003,
+          "cumulative_s": 0.030155860000000003
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 5214,
+          "function": "gqa_relpos_sinks_sdpa_fast",
+          "calls": 3024,
+          "self_s": 0.024770078,
+          "cumulative_s": 0.033991214
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 477,
+          "function": "rht_out_1024_fast",
+          "calls": 5859,
+          "self_s": 0.023228733,
+          "cumulative_s": 0.023228733
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 1535,
+          "function": "matmul_rotated_f16",
+          "calls": 3417,
+          "self_s": 0.021782123,
+          "cumulative_s": 0.022184874
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 1510,
+          "function": "matmul_rotated_sg8_f16",
+          "calls": 2646,
+          "self_s": 0.020664315000000003,
+          "cumulative_s": 0.021229303
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 5537,
+          "function": "moe_wsum_sconv4_res_fused",
+          "calls": 3024,
+          "self_s": 0.020341136000000003,
+          "cumulative_s": 0.020341136000000003
+        },
+        {
+          "file": "model.py",
+          "line": 702,
+          "function": "forward_fast_fused_prerot",
+          "calls": 3024,
+          "self_s": 0.018663628,
+          "cumulative_s": 0.12856021
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 3157,
+          "function": "sigmoid_top8_norm_and_plan_fast",
+          "calls": 2592,
+          "self_s": 0.01814179,
+          "cumulative_s": 0.01814179
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 3815,
+          "function": "q_rel_clip_fused",
+          "calls": 3024,
+          "self_s": 0.017945455000000003,
+          "cumulative_s": 0.017945455000000003
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 3911,
+          "function": "kv_sconv4_norm_fused",
+          "calls": 2520,
+          "self_s": 0.017825207000000003,
+          "cumulative_s": 0.017825207000000003
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 5362,
+          "function": "short_conv4_res_fused",
+          "calls": 3024,
+          "self_s": 0.015703985,
+          "cumulative_s": 0.015703985
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 310,
+          "function": "rht_in_2304_fast",
+          "calls": 3087,
+          "self_s": 0.014761519,
+          "cumulative_s": 0.014761519
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 689,
+          "function": "swiglu_rht_1152_fast",
+          "calls": 3024,
+          "self_s": 0.014438781000000001,
+          "cumulative_s": 0.014438781000000001
+        }
+      ]
+    },
+    "chat": {
+      "profile": "results/inkling_m3/target-profile-clean-chat.prof",
+      "total_s": 5.798738832000002,
+      "top_self_time": [
+        {
+          "file": "model.py",
+          "line": 1818,
+          "function": "_forward_core_fast",
+          "calls": 83,
+          "self_s": 3.5018492680000004,
+          "cumulative_s": 4.157104422000001
+        },
+        {
+          "file": "generate.py",
+          "line": 663,
+          "function": "stream_dspark",
+          "calls": 84,
+          "self_s": 1.4890617290000001,
+          "cumulative_s": 5.7951608310000005
+        },
+        {
+          "file": "model.py",
+          "line": 1533,
+          "function": "forward_fast",
+          "calls": 3984,
+          "self_s": 0.128120595,
+          "cumulative_s": 0.6391513520000001
+        },
+        {
+          "file": "generate.py",
+          "line": 801,
+          "function": "_async_eval_drafter_and_pending",
+          "calls": 82,
+          "self_s": 0.074885538,
+          "cumulative_s": 0.07525246000000001
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 2809,
+          "function": "__call__",
+          "calls": 7968,
+          "self_s": 0.06485115300000001,
+          "cumulative_s": 0.06533177700000001
+        },
+        {
+          "file": "model.py",
+          "line": 360,
+          "function": "commit_spec_verify",
+          "calls": 56,
+          "self_s": 0.042860397,
+          "cumulative_s": 0.043545537
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 3327,
+          "function": "block_attn_res_fused",
+          "calls": 7968,
+          "self_s": 0.039937231000000004,
+          "cumulative_s": 0.039937231000000004
+        },
+        {
+          "file": "kernels.py",
+          "line": 99,
+          "function": "rht_apply_out",
+          "calls": 8466,
+          "self_s": 0.038161613000000004,
+          "cumulative_s": 0.038161613000000004
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 1535,
+          "function": "matmul_rotated_f16",
+          "calls": 5259,
+          "self_s": 0.031872687000000004,
+          "cumulative_s": 0.03219998
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 5214,
+          "function": "gqa_relpos_sinks_sdpa_fast",
+          "calls": 3984,
+          "self_s": 0.031292775,
+          "cumulative_s": 0.042824629
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 477,
+          "function": "rht_out_1024_fast",
+          "calls": 7719,
+          "self_s": 0.029302932,
+          "cumulative_s": 0.029302932
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 5537,
+          "function": "moe_wsum_sconv4_res_fused",
+          "calls": 3984,
+          "self_s": 0.025120860000000002,
+          "cumulative_s": 0.025120860000000002
+        },
+        {
+          "file": "model.py",
+          "line": 702,
+          "function": "forward_fast_fused_prerot",
+          "calls": 3984,
+          "self_s": 0.023166722,
+          "cumulative_s": 0.157171143
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 3815,
+          "function": "q_rel_clip_fused",
+          "calls": 3984,
+          "self_s": 0.022690185,
+          "cumulative_s": 0.022690185
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 3911,
+          "function": "kv_sconv4_norm_fused",
+          "calls": 3320,
+          "self_s": 0.022550118,
+          "cumulative_s": 0.022550118
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 1510,
+          "function": "matmul_rotated_sg8_f16",
+          "calls": 2744,
+          "self_s": 0.021553256,
+          "cumulative_s": 0.022135428000000002
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 5362,
+          "function": "short_conv4_res_fused",
+          "calls": 3984,
+          "self_s": 0.01972457,
+          "cumulative_s": 0.01972457
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 3157,
+          "function": "sigmoid_top8_norm_and_plan_fast",
+          "calls": 2688,
+          "self_s": 0.018908319,
+          "cumulative_s": 0.018908319
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 310,
+          "function": "rht_in_2304_fast",
+          "calls": 4067,
+          "self_s": 0.018734886000000003,
+          "cumulative_s": 0.018734886000000003
+        },
+        {
+          "file": "fast_kernels.py",
+          "line": 689,
+          "function": "swiglu_rht_1152_fast",
+          "calls": 3984,
+          "self_s": 0.017910887,
+          "cumulative_s": 0.017910887
+        }
+      ]
+    }
+  },
+  "capture": {
+    "requested": false,
+    "success": false
+  },
+  "component_scope": "Three six-token full-target calls after prefill; synchronization at each component changes scheduling. These are diagnostic host-plus-device call times, not isolated GPU durations or a normal-generation speed estimate.",
+  "components": {
+    "moe_routing_projections_postconv": {
+      "calls": 144,
+      "total_ms": 154.17512992280535,
+      "mean_ms": 1.070660624463926
+    },
+    "block_attention_residual": {
+      "calls": 288,
+      "total_ms": 54.07403499702923,
+      "mean_ms": 0.18775706596190705
+    },
+    "qkv_projection": {
+      "calls": 144,
+      "total_ms": 49.13849415606819,
+      "mean_ms": 0.3412395427504735
+    },
+    "attention_output_projection": {
+      "calls": 144,
+      "total_ms": 35.16229608794674,
+      "mean_ms": 0.24418261172185238
+    },
+    "post_attention_convolution": {
+      "calls": 144,
+      "total_ms": 31.87475466984324,
+      "mean_ms": 0.2213524629850225
+    },
+    "q_relative_clip": {
+      "calls": 144,
+      "total_ms": 31.240826210705563,
+      "mean_ms": 0.21695018201878863
+    },
+    "attention": {
+      "calls": 144,
+      "total_ms": 30.5064529820811,
+      "mean_ms": 0.21185036793111875
+    },
+    "qkv_rotation": {
+      "calls": 147,
+      "total_ms": 29.87078987644054,
+      "mean_ms": 0.20320265222068395
+    },
+    "attention_gate_rotation": {
+      "calls": 144,
+      "total_ms": 28.95683699171059,
+      "mean_ms": 0.20108914577576797
+    },
+    "kv_preparation": {
+      "calls": 120,
+      "total_ms": 25.599206826882437,
+      "mean_ms": 0.21332672355735363
+    },
+    "attention_message_preparation": {
+      "calls": 72,
+      "total_ms": 20.93878196319565,
+      "mean_ms": 0.29081641615549514
+    },
+    "mlp_message_preparation": {
+      "calls": 72,
+      "total_ms": 19.79220489738509,
+      "mean_ms": 0.27489173468590405
+    },
+    "mlp_input_preparation": {
+      "calls": 72,
+      "total_ms": 14.558088092599064,
+      "mean_ms": 0.20219566795276478
+    },
+    "dynamic_kv_preparation": {
+      "calls": 24,
+      "total_ms": 5.685626994818449,
+      "mean_ms": 0.23690112478410205
+    }
+  }
+}

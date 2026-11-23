@@ -304,6 +304,7 @@ class Inkling2Cache:
 
         self.conv_states: list[list[mx.array | None]] = [[None, None, None, None] for _ in range(n_slots)]
         self.seq_len: int = 0
+        self.retain_prefill_loop_weights: bool = True
         self._spec_recording: bool = False
         self._spec_base_seq: int = 0
         self._spec_base_kv_len: list[int] = [0] * n_slots
@@ -1855,7 +1856,7 @@ class Inkling2LoopPackedMLX:
         num_pre = n_blocks
 
         # For T >= 64 prefill, reuse dequantized FP16 QKV & O weights across the 3 loop passes of L6..17
-        cache_loop_w = (T >= 64) and (cfg.loop_passes > 1)
+        cache_loop_w = (T >= 64) and (cfg.loop_passes > 1) and getattr(cache, 'retain_prefill_loop_weights', True)
         loop_w_cache: dict[int, tuple[mx.array, mx.array]] = {}
 
         # 2. Pass 0 over loop layers (L6..17)

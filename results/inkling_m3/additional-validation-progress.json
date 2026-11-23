@@ -1,0 +1,78 @@
+[
+  {
+    "name": "exact-cache-sampled-seven",
+    "returncode": 0,
+    "wall_s": 106.55478325000149,
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "runtime_mlx.inkling.bench_exact_prompt_cache",
+      "/Users/rahul/.cache/huggingface/hub/models--shinmegamiboson--Inkling-2-Mini-LookAtMyQuant-8.9GB/snapshots/b5fe3bee6a8dc6dd50bb00c2dd17d2e259365a85",
+      "/Users/rahul/.cache/huggingface/hub/models--shinmegamiboson--Inkling-2-Mini-LookAtMyQuant-drafter/snapshots/adac74d1cf00ed68a19a77233a62bd6dcc6c2607",
+      "--suite",
+      "smoke",
+      "--repetitions",
+      "7",
+      "--max-tokens",
+      "64",
+      "--temp",
+      "0.7",
+      "--seed",
+      "127",
+      "--out",
+      "results/inkling_m3/exact-cache-sampled-seven.json"
+    ]
+  },
+  {
+    "name": "exact-cache-2k-seven",
+    "returncode": 0,
+    "wall_s": 192.41807454099762,
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "runtime_mlx.inkling.bench_exact_prompt_cache",
+      "/Users/rahul/.cache/huggingface/hub/models--shinmegamiboson--Inkling-2-Mini-LookAtMyQuant-8.9GB/snapshots/b5fe3bee6a8dc6dd50bb00c2dd17d2e259365a85",
+      "/Users/rahul/.cache/huggingface/hub/models--shinmegamiboson--Inkling-2-Mini-LookAtMyQuant-drafter/snapshots/adac74d1cf00ed68a19a77233a62bd6dcc6c2607",
+      "--suite",
+      "long",
+      "--long-target",
+      "2048",
+      "--repetitions",
+      "7",
+      "--max-tokens",
+      "128",
+      "--cache-mib",
+      "1536",
+      "--low-memory",
+      "--release-for-baseline",
+      "--out",
+      "results/inkling_m3/exact-cache-2k-seven.json"
+    ]
+  },
+  {
+    "name": "exact-cache-8k-original-reference",
+    "returncode": 0,
+    "wall_s": 356.2283477500023,
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "runtime_mlx.inkling.bench_exact_prompt_cache",
+      "/Users/rahul/.cache/huggingface/hub/models--shinmegamiboson--Inkling-2-Mini-LookAtMyQuant-8.9GB/snapshots/b5fe3bee6a8dc6dd50bb00c2dd17d2e259365a85",
+      "/Users/rahul/.cache/huggingface/hub/models--shinmegamiboson--Inkling-2-Mini-LookAtMyQuant-drafter/snapshots/adac74d1cf00ed68a19a77233a62bd6dcc6c2607",
+      "--suite",
+      "long",
+      "--long-target",
+      "8192",
+      "--repetitions",
+      "5",
+      "--max-tokens",
+      "128",
+      "--cache-mib",
+      "1536",
+      "--low-memory",
+      "--release-for-baseline",
+      "--out",
+      "results/inkling_m3/exact-cache-8k-original-reference.json"
+    ]
+  }
+]

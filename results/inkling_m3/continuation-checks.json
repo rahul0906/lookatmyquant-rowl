@@ -1,0 +1,56 @@
+[
+  {
+    "name": "lut-staging-micro",
+    "returncode": 0,
+    "wall_s": 7.26734583301004,
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "runtime_mlx.inkling.bench_lut_staging",
+      "/Users/rahul/.cache/huggingface/hub/models--shinmegamiboson--Inkling-2-Mini-LookAtMyQuant-8.9GB/snapshots/b5fe3bee6a8dc6dd50bb00c2dd17d2e259365a85",
+      "--out",
+      "results/inkling_m3/lut-staging-micro.json"
+    ]
+  },
+  {
+    "name": "target-profile-clean",
+    "returncode": 0,
+    "wall_s": 37.131141958001535,
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "runtime_mlx.inkling.profile_m3",
+      "/Users/rahul/.cache/huggingface/hub/models--shinmegamiboson--Inkling-2-Mini-LookAtMyQuant-8.9GB/snapshots/b5fe3bee6a8dc6dd50bb00c2dd17d2e259365a85",
+      "/Users/rahul/.cache/huggingface/hub/models--shinmegamiboson--Inkling-2-Mini-LookAtMyQuant-drafter/snapshots/adac74d1cf00ed68a19a77233a62bd6dcc6c2607",
+      "--out",
+      "results/inkling_m3/target-profile-clean.json"
+    ]
+  },
+  {
+    "name": "inkling-tests",
+    "returncode": 0,
+    "wall_s": 12.336385749978945,
+    "command": [
+      ".venv/bin/python",
+      "runtime_mlx/test_inkling.py"
+    ]
+  },
+  {
+    "name": "server-tests",
+    "returncode": 0,
+    "wall_s": 1.1057929999951739,
+    "command": [
+      ".venv/bin/python",
+      "runtime_mlx/test_server.py"
+    ]
+  },
+  {
+    "name": "cli-cuda-tests",
+    "returncode": 0,
+    "wall_s": 0.08256608300143853,
+    "command": [
+      ".venv/bin/python",
+      "runtime_mlx/test_cli_cuda.py"
+    ]
+  }
+]

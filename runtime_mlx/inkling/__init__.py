@@ -2,6 +2,7 @@
 
 from .drafter import DSparkDrafterMLX, quantize_mtp_to_4bit, resolve_drafter_files
 from .generate import PromptCache, generate_dspark, generate_serial, stream_dspark, stream_serial
+from .exact_prompt_cache import ExactPromptCache
 from .model import Inkling2Cache, Inkling2Config, Inkling2LoopPackedMLX, Inkling2MLXModel, load_inkling
 
 __all__ = [
@@ -11,6 +12,7 @@ __all__ = [
     "Inkling2LoopPackedMLX",
     "Inkling2MLXModel",
     "PromptCache",
+    "ExactPromptCache",
     "generate_dspark",
     "generate_serial",
     "load_inkling",

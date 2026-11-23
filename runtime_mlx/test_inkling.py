@@ -421,6 +421,141 @@ def test_prompt_cache_reuse_matches_fresh_prefill() -> None:
         assert len(disabled) == 0
 
 
+def test_exact_prompt_cache_preserves_execution_and_snapshots() -> None:
+    from runtime_mlx.inkling.exact_prompt_cache import ExactPromptCache
+    from runtime_mlx.inkling.generate import stream_serial
+
+    with tempfile.TemporaryDirectory() as td:
+        build_mini_packed_dir(Path(td))
+        model = Inkling2LoopPackedMLX(Path(td))
+        ids = [11, 23, 41, 17, 19, 53, 71, 3, 5, 13, 29]
+        cache = ExactPromptCache(max_entries=2, min_tokens=0)
+
+        def gen(prompt, pc=None, chunk=4, temp=0):
+            mx.random.seed(41)
+            stats = {}
+            out = [t for c in stream_serial(model, prompt, max_tokens=12, eos_ids=(),
+                    stats_out=stats, prefill_chunk=chunk, temp=temp, prompt_cache=pc) for t in c]
+            return out, stats['prompt_cached_tokens']
+
+        reference = gen(ids)[0]
+        assert gen(ids, cache) == (reference, 0)
+        assert gen(ids, cache) == (reference, len(ids))
+        snapshot = [mx.array(a) for a in cache._entries[0]['cache'].state]
+        assert gen(ids, cache) == (reference, len(ids))
+        assert all(bool(mx.array_equal(a, b).item()) for a, b in
+                   zip(snapshot, cache._entries[0]['cache'].state))
+        for prompt in (ids + [37, 43], ids[:4] + [61] + ids[5:]):
+            assert gen(prompt, cache) == (gen(prompt)[0], 0)
+        assert len(cache) == 2
+        assert gen(ids, cache)[1] == 0, 'least recently used entry was evicted'
+        assert gen(ids, cache, chunk=0) == (gen(ids, chunk=0)[0], 0)
+        assert gen(ids, cache, chunk=0)[1] == len(ids)
+        sampled = gen(ids, temp=0.7)[0]
+        assert gen(ids, cache, temp=0.7) == (sampled, 0), 'ordered output needs its own entry'
+        assert gen(ids, cache, temp=0.7) == (sampled, len(ids))
+        gen(ids, cache)
+        assert gen(ids, cache) == (reference, len(ids))
+        import os
+        previous = os.environ.get('LAMQ_FUSED_SDPA')
+        try:
+            os.environ['LAMQ_FUSED_SDPA'] = '0' if previous != '0' else '1'
+            assert gen(ids, cache) == (reference, 0), 'execution settings invalidate a snapshot'
+        finally:
+            if previous is None: os.environ.pop('LAMQ_FUSED_SDPA', None)
+            else: os.environ['LAMQ_FUSED_SDPA'] = previous
+        bounded = ExactPromptCache(min_tokens=0, max_bytes=0)
+        assert gen(ids, bounded) == (reference, 0) and len(bounded) == 0
+        assert bounded.retained_bytes == 0
+        one = ExactPromptCache(max_entries=4, min_tokens=0)
+        gen(ids, one)
+        one.max_bytes = one.retained_bytes
+        gen(ids + [37], one)
+        assert one.retained_bytes <= one.max_bytes
+        disabled = ExactPromptCache(max_entries=0, min_tokens=0)
+        assert gen(ids, disabled) == (reference, 0) and len(disabled) == 0
+        try:
+            ExactPromptCache(max_bytes=-1)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError('negative memory budget accepted')
+        class PolicyCache(ExactPromptCache):
+            def generation_cache_limit(self, m): return 256*1024**2
+        from unittest.mock import patch
+        before_cache = mx.set_cache_limit(1024**3)
+        test_wire = mx.device_info()['max_recommended_working_set_size'] - 1024**2
+        before_wire = mx.set_wired_limit(test_wire)
+        try:
+            for fail_sync in (False, True):
+                g = stream_serial(model, ids, max_tokens=12, eos_ids=(), prefill_chunk=4,
+                                  prompt_cache=PolicyCache())
+                assert next(g) == [reference[0]]
+                assert mx.set_cache_limit(256*1024**2) == 256*1024**2
+                if fail_sync:
+                    with patch.object(mx, 'synchronize', side_effect=RuntimeError('injected cleanup failure')):
+                        try: g.close()
+                        except RuntimeError: pass
+                        else: raise AssertionError('injected cleanup error was not propagated')
+                else:
+                    g.close()
+                assert mx.set_cache_limit(1024**3) == 1024**3
+                assert mx.set_wired_limit(test_wire) == test_wire
+        finally:
+            mx.set_cache_limit(before_cache)
+            mx.set_wired_limit(before_wire)
+
+
+def test_cache_memory_limits_survive_reporting_and_pending_eval_errors() -> None:
+    from types import SimpleNamespace
+    from unittest.mock import patch
+    from runtime_mlx.inkling import ExactPromptCache, stream_dspark, stream_serial
+
+    class PolicyCache(ExactPromptCache):
+        def generation_cache_limit(self, m):
+            return 256 * 1024**2
+
+    class FailingStats(dict):
+        def update(self, *args, **kwargs):
+            raise RuntimeError('injected statistics failure')
+
+    with tempfile.TemporaryDirectory() as td:
+        build_mini_packed_dir(Path(td))
+        model = Inkling2LoopPackedMLX(Path(td))
+        ids = [11, 23, 41, 17]
+        drafter = SimpleNamespace(target_layer_ids=(1, 5, 7, 10), block_size=6,
+            reset=lambda: None, push_context=lambda *a, **kw: None, f_rnn=mx.zeros((1, 256)))
+        before_cache = mx.set_cache_limit(1024**3)
+        test_wire = mx.device_info()['max_recommended_working_set_size'] - 1024**2
+        before_wire = mx.set_wired_limit(test_wire)
+        try:
+            for mode in ('serial_stats', 'drafted_stats', 'pending_eval'):
+                kwargs = dict(max_tokens=12, eos_ids=(), prefill_chunk=4,
+                              prompt_cache=PolicyCache(max_entries=0))
+                if mode != 'pending_eval':
+                    kwargs['stats_out'] = FailingStats()
+                g = (stream_dspark(model, drafter, ids, ngram=False, **kwargs)
+                     if mode == 'drafted_stats' else stream_serial(model, ids, **kwargs))
+                next(g)
+                if mode == 'pending_eval':
+                    next(g)  # Leave the serial pipeline's next evaluation pending.
+                try:
+                    if mode == 'pending_eval':
+                        with patch.object(mx, 'eval', side_effect=RuntimeError('injected pending evaluation failure')):
+                            g.close()
+                    else:
+                        g.close()
+                except RuntimeError as error:
+                    assert 'injected' in str(error)
+                else:
+                    raise AssertionError(f'{mode} cleanup error was not propagated')
+                assert mx.set_cache_limit(1024**3) == 1024**3, mode
+                assert mx.set_wired_limit(test_wire) == test_wire, mode
+        finally:
+            mx.set_cache_limit(before_cache)
+            mx.set_wired_limit(before_wire)
+
+
 def test_moe_grouped_large_expert_count_parity() -> None:
     """Stress-test deterministic compaction inside `trellis_moe_grouped` with E=96 (>32 experts) and sentinel slots."""
     rng = np.random.default_rng(123)
@@ -943,6 +1078,8 @@ def main() -> None:
     test_prefill_budget_keeps_one_pass_when_it_fits()
     test_chunked_prefill_matches_single_pass()
     test_prompt_cache_reuse_matches_fresh_prefill()
+    test_exact_prompt_cache_preserves_execution_and_snapshots()
+    test_cache_memory_limits_survive_reporting_and_pending_eval_errors()
     test_moe_grouped_large_expert_count_parity()
     test_tree_spec_and_kernels()
     test_compressed_global_kv()

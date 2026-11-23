@@ -1,0 +1,114 @@
+{
+  "status": "complete",
+  "baseline_arm": "baseline",
+  "candidate_arm": "candidate",
+  "complete_prompts": 3,
+  "unpaired_prompts": [],
+  "missing_prompts": [],
+  "unexpected_prompts": [],
+  "comparison_complete": true,
+  "families": {
+    "math": 1.0,
+    "code": 0.9996709443896018,
+    "chat": 1.0041415662650603
+  },
+  "family_balanced_ratio": 1.0012687721527576,
+  "all_candidate_outputs_match_baseline": true,
+  "all_baselines_stable": true,
+  "prompts": [
+    {
+      "family": "math",
+      "prompt": "A shop discounts an item by 20 percent and then adds 10 percent tax. What is its final price if it began at 150?",
+      "paired_ratios": [
+        1.0,
+        1.000915750915751,
+        0.9521739130434782,
+        0.9858889934148636,
+        1.0491060186351044
+      ],
+      "median_ratio": 1.0,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "code",
+      "prompt": "Write a Python function to find the first repeated element and include edge cases.",
+      "paired_ratios": [
+        0.9996709443896018,
+        1.0006585446163978,
+        0.9996708360763661,
+        1.0444827586206897,
+        0.9531353135313531
+      ],
+      "median_ratio": 0.9996709443896018,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "chat",
+      "prompt": "Explain the water cycle clearly for a high-school student.",
+      "paired_ratios": [
+        0.9962462462462462,
+        1.0374414976599065,
+        1.000760167236792,
+        1.0179732313575527,
+        1.0041415662650603
+      ],
+      "median_ratio": 1.0041415662650603,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    }
+  ],
+  "first_token_family_ratios": {
+    "math": 85.34402803974783,
+    "code": 65.91108519390363,
+    "chat": 64.27175973726169
+  },
+  "first_token_balanced_ratio": 71.23890957067105,
+  "cases": [
+    {
+      "family": "math",
+      "prompt": "A shop discounts an item by 20 percent and then adds 10 percent tax. What is its final price if it began at 150?",
+      "baseline_first_ms": 285.9387499920558,
+      "cached_first_ms": 3.338667011121288,
+      "first_token_ratio": 85.34402803974783,
+      "minimum_paired_ratio": 64.39880647371314,
+      "fill_first_ms": 296.34716699365526,
+      "wall_speed_ratio": 1.0883266187464646,
+      "peak_bytes_including_fill": 9624075594,
+      "peak_added_bytes": 0,
+      "retained_bytes": 55750660,
+      "all_hits": true
+    },
+    {
+      "family": "code",
+      "prompt": "Write a Python function to find the first repeated element and include edge cases.",
+      "baseline_first_ms": 230.9365420078393,
+      "cached_first_ms": 3.50379099836573,
+      "first_token_ratio": 65.91108519390363,
+      "minimum_paired_ratio": 64.21327244225287,
+      "fill_first_ms": 234.24024999258108,
+      "wall_speed_ratio": 1.0269915659405773,
+      "peak_bytes_including_fill": 9575272694,
+      "peak_added_bytes": -4,
+      "retained_bytes": 55197700,
+      "all_hits": true
+    },
+    {
+      "family": "chat",
+      "prompt": "Explain the water cycle clearly for a high-school student.",
+      "baseline_first_ms": 226.94700001738966,
+      "cached_first_ms": 3.560584009392187,
+      "first_token_ratio": 64.27175973726168,
+      "minimum_paired_ratio": 60.790524338202815,
+      "fill_first_ms": 232.65954197268002,
+      "wall_speed_ratio": 1.0274643784341932,
+      "peak_bytes_including_fill": 9567820110,
+      "peak_added_bytes": 24,
+      "retained_bytes": 55087108,
+      "all_hits": true
+    }
+  ],
+  "invalid_first_token_cases": [],
+  "passes_repeated_prefill_gate": true
+}

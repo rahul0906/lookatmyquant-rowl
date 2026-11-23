@@ -1,0 +1,113 @@
+{
+  "status": "complete",
+  "baseline_arm": "baseline",
+  "candidate_arm": "candidate",
+  "complete_prompts": 3,
+  "unpaired_prompts": [],
+  "missing_prompts": [],
+  "unexpected_prompts": [],
+  "comparison_complete": true,
+  "families": {
+    "math": 1.01722882795438,
+    "code": 1.0067708333333334,
+    "chat": 1.0077576653121536
+  },
+  "family_balanced_ratio": 1.0105748015322402,
+  "all_candidate_outputs_match_baseline": true,
+  "all_baselines_stable": true,
+  "prompts": [
+    {
+      "family": "math",
+      "prompt": "What is 17 times 23? Show the steps.",
+      "paired_ratios": [
+        0.9861818181818182,
+        0.993977354854252,
+        1.0817901234567902,
+        1.100833767587285,
+        1.01722882795438
+      ],
+      "median_ratio": 1.01722882795438,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "code",
+      "prompt": "Write a Python function that merges overlapping intervals with tests.",
+      "paired_ratios": [
+        1.002348643006263,
+        1.009065009065009,
+        1.0067708333333334,
+        1.013089005235602,
+        0.9994803845154585
+      ],
+      "median_ratio": 1.0067708333333334,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "chat",
+      "prompt": "Explain how a refrigerator works to a beginner.",
+      "paired_ratios": [
+        1.0077576653121536,
+        1.0179573512906845,
+        1.023340627279358,
+        0.9992698064987222,
+        1.0018168604651163
+      ],
+      "median_ratio": 1.0077576653121536,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    }
+  ],
+  "first_token_family_ratios": {
+    "math": 71.52687269363969,
+    "code": 71.49934944076576,
+    "chat": 66.11528071616954
+  },
+  "first_token_balanced_ratio": 69.6665639751276,
+  "cases": [
+    {
+      "family": "math",
+      "prompt": "What is 17 times 23? Show the steps.",
+      "baseline_first_ms": 230.60933299711905,
+      "cached_first_ms": 3.158500010613352,
+      "first_token_ratio": 71.52687269363967,
+      "minimum_paired_ratio": 2.9268458497940912,
+      "fill_first_ms": 248.81287501193583,
+      "wall_speed_ratio": 1.0878596960441982,
+      "peak_bytes_including_fill": 9567136314,
+      "peak_added_bytes": 0,
+      "retained_bytes": 55087108,
+      "all_hits": true
+    },
+    {
+      "family": "code",
+      "prompt": "Write a Python function that merges overlapping intervals with tests.",
+      "baseline_first_ms": 225.34062498016283,
+      "cached_first_ms": 3.2048750144895166,
+      "first_token_ratio": 71.49934944076578,
+      "minimum_paired_ratio": 63.615895953472716,
+      "fill_first_ms": 251.6252089990303,
+      "wall_speed_ratio": 1.0418508783157239,
+      "peak_bytes_including_fill": 9569438878,
+      "peak_added_bytes": 0,
+      "retained_bytes": 55123972,
+      "all_hits": true
+    },
+    {
+      "family": "chat",
+      "prompt": "Explain how a refrigerator works to a beginner.",
+      "baseline_first_ms": 222.88162499899045,
+      "cached_first_ms": 3.444834001129493,
+      "first_token_ratio": 66.11528071616952,
+      "minimum_paired_ratio": 55.89976046435312,
+      "fill_first_ms": 225.4532079969067,
+      "wall_speed_ratio": 1.033488990309284,
+      "peak_bytes_including_fill": 9563975390,
+      "peak_added_bytes": 16,
+      "retained_bytes": 55050244,
+      "all_hits": true
+    }
+  ],
+  "passes_repeated_prefill_gate": true
+}

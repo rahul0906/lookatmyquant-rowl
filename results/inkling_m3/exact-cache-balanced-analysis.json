@@ -1,0 +1,282 @@
+{
+  "status": "complete",
+  "baseline_arm": "baseline",
+  "candidate_arm": "candidate",
+  "complete_prompts": 9,
+  "unpaired_prompts": [],
+  "missing_prompts": [],
+  "unexpected_prompts": [],
+  "comparison_complete": true,
+  "families": {
+    "math": 0.9990989899268007,
+    "code": 1.0009496938542217,
+    "chat": 0.9937193523033709
+  },
+  "family_balanced_ratio": 0.9979179614603968,
+  "all_candidate_outputs_match_baseline": true,
+  "all_baselines_stable": true,
+  "prompts": [
+    {
+      "family": "math",
+      "prompt": "What is 17 times 23? Show the steps.",
+      "paired_ratios": [
+        0.9975804500362933,
+        1.0649516046867042,
+        0.98831106870229,
+        0.9939642684693385,
+        1.0012059816690786
+      ],
+      "median_ratio": 0.9975804500362933,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "math",
+      "prompt": "Solve 3x + 4y = 31 and 5x - 2y = 17 and check your answer.",
+      "paired_ratios": [
+        1.0635863586358636,
+        0.998422712933754,
+        0.9990165224232886,
+        0.9992125984251968,
+        1.033102553007356
+      ],
+      "median_ratio": 0.9992125984251968,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "math",
+      "prompt": "A train covers 246 km in 3 hours 25 minutes including a 12 minute stop. Find its moving average speed.",
+      "paired_ratios": [
+        0.9964682139253279,
+        1.022399588053553,
+        1.015860833972883,
+        1.000506072874494,
+        0.9954659949622167
+      ],
+      "median_ratio": 1.000506072874494,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "code",
+      "prompt": "Write a Python function that merges overlapping intervals with tests.",
+      "paired_ratios": [
+        1.007588075880759,
+        1.001103448275862,
+        1.0554773303294847,
+        0.9428571428571428,
+        1.0049634273772203
+      ],
+      "median_ratio": 1.0049634273772203,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "code",
+      "prompt": "Debug this Python function and explain the correction: def average(x): return sum(x) / (len(x)-1)",
+      "paired_ratios": [
+        0.9838035527690699,
+        1.015159574468085,
+        0.9948648648648649,
+        0.9989247311827956,
+        1.0139217231415814
+      ],
+      "median_ratio": 0.9989247311827956,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "code",
+      "prompt": "Implement binary search in Python and explain its edge cases.",
+      "paired_ratios": [
+        0.9846521145975443,
+        0.990724836825833,
+        0.998972954467648,
+        1.0006842285323299,
+        1.0
+      ],
+      "median_ratio": 0.998972954467648,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "chat",
+      "prompt": "Explain how a refrigerator works to a beginner.",
+      "paired_ratios": [
+        1.008209538702111,
+        1.0153385708941265,
+        0.9981698389458272,
+        0.9875640087783467,
+        0.9879297732260425
+      ],
+      "median_ratio": 0.9981698389458272,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "chat",
+      "prompt": "Summarize three causes of the First World War.",
+      "paired_ratios": [
+        0.9551131928181108,
+        0.956232903477921,
+        1.0027322404371586,
+        0.9866003062787135,
+        1.0061799922750096
+      ],
+      "median_ratio": 0.9866003062787135,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "chat",
+      "prompt": "Give a structured checklist for planning a three day trip.",
+      "paired_ratios": [
+        1.009865824782952,
+        0.9964271536323938,
+        1.0721823554242296,
+        0.9917711598746081,
+        0.9876739562624255
+      ],
+      "median_ratio": 0.9964271536323938,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    }
+  ],
+  "first_token_family_ratios": {
+    "math": 81.47070773294512,
+    "code": 73.0504315840463,
+    "chat": 71.92908422160642
+  },
+  "first_token_balanced_ratio": 75.36613930266532,
+  "cases": [
+    {
+      "family": "math",
+      "prompt": "What is 17 times 23? Show the steps.",
+      "baseline_first_ms": 229.3465419788845,
+      "cached_first_ms": 3.0590829846914858,
+      "first_token_ratio": 72.83688743557408,
+      "minimum_paired_ratio": 59.16021549427808,
+      "fill_first_ms": 225.82912500365637,
+      "wall_speed_ratio": 1.0699235484181087,
+      "peak_bytes_including_fill": 9567098998,
+      "peak_added_bytes": 0,
+      "retained_bytes": 55087108,
+      "all_hits": true
+    },
+    {
+      "family": "math",
+      "prompt": "Solve 3x + 4y = 31 and 5x - 2y = 17 and check your answer.",
+      "baseline_first_ms": 264.87204199656844,
+      "cached_first_ms": 3.2497499778401107,
+      "first_token_ratio": 82.40775471931946,
+      "minimum_paired_ratio": 72.5779112961958,
+      "fill_first_ms": 315.1180839922745,
+      "wall_speed_ratio": 1.0512171441432856,
+      "peak_bytes_including_fill": 9612414634,
+      "peak_added_bytes": 384,
+      "retained_bytes": 55640068,
+      "all_hits": true
+    },
+    {
+      "family": "math",
+      "prompt": "A train covers 246 km in 3 hours 25 minutes including a 12 minute stop. Find its moving average speed.",
+      "baseline_first_ms": 272.3497090046294,
+      "cached_first_ms": 3.0867080204188824,
+      "first_token_ratio": 90.09174665712727,
+      "minimum_paired_ratio": 85.88988935096648,
+      "fill_first_ms": 313.62012500176206,
+      "wall_speed_ratio": 1.0441450590387256,
+      "peak_bytes_including_fill": 9610089890,
+      "peak_added_bytes": 0,
+      "retained_bytes": 55603204,
+      "all_hits": true
+    },
+    {
+      "family": "code",
+      "prompt": "Write a Python function that merges overlapping intervals with tests.",
+      "baseline_first_ms": 230.59045799891464,
+      "cached_first_ms": 3.3181660110130906,
+      "first_token_ratio": 69.68096508058899,
+      "minimum_paired_ratio": 68.67603856040289,
+      "fill_first_ms": 235.76633402262814,
+      "wall_speed_ratio": 1.0407705007913612,
+      "peak_bytes_including_fill": 9569504198,
+      "peak_added_bytes": 0,
+      "retained_bytes": 55123972,
+      "all_hits": true
+    },
+    {
+      "family": "code",
+      "prompt": "Debug this Python function and explain the correction: def average(x): return sum(x) / (len(x)-1)",
+      "baseline_first_ms": 283.6555420071818,
+      "cached_first_ms": 3.003457997692749,
+      "first_token_ratio": 95.1627214709195,
+      "minimum_paired_ratio": 88.03483389461843,
+      "fill_first_ms": 283.20962499128655,
+      "wall_speed_ratio": 1.0397260622125128,
+      "peak_bytes_including_fill": 9619538966,
+      "peak_added_bytes": -16192,
+      "retained_bytes": 55713796,
+      "all_hits": true
+    },
+    {
+      "family": "code",
+      "prompt": "Implement binary search in Python and explain its edge cases.",
+      "baseline_first_ms": 219.93904098053463,
+      "cached_first_ms": 3.7438339786604047,
+      "first_token_ratio": 58.787818917576196,
+      "minimum_paired_ratio": 50.8109077450133,
+      "fill_first_ms": 223.40487499604933,
+      "wall_speed_ratio": 1.0235625408982105,
+      "peak_bytes_including_fill": 9563654374,
+      "peak_added_bytes": 8,
+      "retained_bytes": 55050244,
+      "all_hits": true
+    },
+    {
+      "family": "chat",
+      "prompt": "Explain how a refrigerator works to a beginner.",
+      "baseline_first_ms": 220.17683400190435,
+      "cached_first_ms": 3.338083013659343,
+      "first_token_ratio": 66.01547177997382,
+      "minimum_paired_ratio": 57.65434272573001,
+      "fill_first_ms": 226.85866698157042,
+      "wall_speed_ratio": 1.0215085463144953,
+      "peak_bytes_including_fill": 9563654318,
+      "peak_added_bytes": 16,
+      "retained_bytes": 55050244,
+      "all_hits": true
+    },
+    {
+      "family": "chat",
+      "prompt": "Summarize three causes of the First World War.",
+      "baseline_first_ms": 230.9012920013629,
+      "cached_first_ms": 2.924625005107373,
+      "first_token_ratio": 79.81184003972501,
+      "minimum_paired_ratio": 66.59864696289355,
+      "fill_first_ms": 218.78162497887388,
+      "wall_speed_ratio": 1.0082777715280622,
+      "peak_bytes_including_fill": 9561034906,
+      "peak_added_bytes": 8,
+      "retained_bytes": 55013380,
+      "all_hits": true
+    },
+    {
+      "family": "chat",
+      "prompt": "Give a structured checklist for planning a three day trip.",
+      "baseline_first_ms": 218.89916702639312,
+      "cached_first_ms": 3.158582985633984,
+      "first_token_ratio": 70.63184297753494,
+      "minimum_paired_ratio": 68.01562254004514,
+      "fill_first_ms": 221.70583298429847,
+      "wall_speed_ratio": 1.0175404045390761,
+      "peak_bytes_including_fill": 9567123554,
+      "peak_added_bytes": 8,
+      "retained_bytes": 55087108,
+      "all_hits": true
+    }
+  ],
+  "invalid_first_token_cases": [],
+  "passes_repeated_prefill_gate": true
+}

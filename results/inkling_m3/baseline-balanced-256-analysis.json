@@ -1,0 +1,146 @@
+{
+  "status": "complete",
+  "baseline_arm": "serial",
+  "candidate_arm": "baseline",
+  "complete_prompts": 9,
+  "unpaired_prompts": [],
+  "missing_prompts": [],
+  "unexpected_prompts": [],
+  "comparison_complete": true,
+  "families": {
+    "math": 1.5774463272022547,
+    "code": 1.2619583944366677,
+    "chat": 0.9906463284231437
+  },
+  "family_balanced_ratio": 1.254024690667127,
+  "all_candidate_outputs_match_baseline": false,
+  "all_baselines_stable": true,
+  "prompts": [
+    {
+      "family": "math",
+      "prompt": "What is 17 times 23? Show the steps.",
+      "paired_ratios": [
+        1.5483821405524998,
+        1.5793771540348374,
+        1.5440816076461217,
+        1.5436851608164766,
+        1.5852850129764546
+      ],
+      "median_ratio": 1.5483821405524998,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "math",
+      "prompt": "Solve 3x + 4y = 31 and 5x - 2y = 17 and check your answer.",
+      "paired_ratios": [
+        1.8890439366629845,
+        1.7378618249318407,
+        1.7392785260876298,
+        1.759688567878223,
+        1.7372180090237113
+      ],
+      "median_ratio": 1.7392785260876298,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "math",
+      "prompt": "A train covers 246 km in 3 hours 25 minutes including a 12 minute stop. Find its moving average speed.",
+      "paired_ratios": [
+        1.4575265862882634,
+        1.503657040006545,
+        1.4623758687164867,
+        1.4514336803116419,
+        1.3960377650518494
+      ],
+      "median_ratio": 1.4575265862882634,
+      "candidate_matches_baseline": true,
+      "baseline_stable": true
+    },
+    {
+      "family": "code",
+      "prompt": "Write a Python function that merges overlapping intervals with tests.",
+      "paired_ratios": [
+        1.368170452333538,
+        1.4101731765132186,
+        1.384889234356782,
+        1.3845675558042652,
+        1.3855781339884017
+      ],
+      "median_ratio": 1.384889234356782,
+      "candidate_matches_baseline": false,
+      "baseline_stable": true
+    },
+    {
+      "family": "code",
+      "prompt": "Debug this Python function and explain the correction: def average(x): return sum(x) / (len(x)-1)",
+      "paired_ratios": [
+        1.389233985591168,
+        1.392059996428784,
+        1.383034765560694,
+        1.42012631326888,
+        1.3901403449180936
+      ],
+      "median_ratio": 1.3901403449180936,
+      "candidate_matches_baseline": false,
+      "baseline_stable": true
+    },
+    {
+      "family": "code",
+      "prompt": "Implement binary search in Python and explain its edge cases.",
+      "paired_ratios": [
+        1.061118105974136,
+        1.068823725348311,
+        1.0318456583127427,
+        1.0439060719242619,
+        1.0438515342960288
+      ],
+      "median_ratio": 1.0439060719242619,
+      "candidate_matches_baseline": false,
+      "baseline_stable": true
+    },
+    {
+      "family": "chat",
+      "prompt": "Explain how a refrigerator works to a beginner.",
+      "paired_ratios": [
+        1.030264345299672,
+        1.0250126660352006,
+        1.0081419202602013,
+        1.03187075414911,
+        1.0141559153385615
+      ],
+      "median_ratio": 1.0250126660352006,
+      "candidate_matches_baseline": false,
+      "baseline_stable": true
+    },
+    {
+      "family": "chat",
+      "prompt": "Summarize three causes of the First World War.",
+      "paired_ratios": [
+        0.9808972357887318,
+        0.9629835034082201,
+        0.9881315841573843,
+        0.9907079461644236,
+        0.9793172977046374
+      ],
+      "median_ratio": 0.9808972357887318,
+      "candidate_matches_baseline": false,
+      "baseline_stable": true
+    },
+    {
+      "family": "chat",
+      "prompt": "Give a structured checklist for planning a three day trip.",
+      "paired_ratios": [
+        0.9805140670356273,
+        0.9575105975320406,
+        0.9768833233949513,
+        0.9666091138928284,
+        0.9669480906308416
+      ],
+      "median_ratio": 0.9669480906308416,
+      "candidate_matches_baseline": false,
+      "baseline_stable": true
+    }
+  ]
+}

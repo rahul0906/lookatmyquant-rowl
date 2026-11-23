@@ -1,0 +1,12 @@
+[
+  {
+    "name": "lut-staging-eligible",
+    "returncode": 0,
+    "wall_s": 8.752376709016971
+  },
+  {
+    "name": "loop-weights-16k-standalone",
+    "returncode": 0,
+    "wall_s": 404.07648954199976
+  }
+]
